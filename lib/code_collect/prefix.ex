@@ -4,6 +4,8 @@ defmodule CodeCollect.Prefix do
   and check how may points it's worth
   """
 
+  import Extensions.Enum
+
   @symbols String.graphemes("123456789ABCDEFGHIJKLMNPQRSTUVWXYZ")
 
   @prefix_points_domain Application.compile_env(:code_collect, [:apis, :prefix])
@@ -19,12 +21,6 @@ defmodule CodeCollect.Prefix do
   defp add_symbol(char, symbols) do
     symbols
     |> Enum.map(&(char <> &1))
-  end
-
-  defp pmap(collection, func) do
-    collection
-    |> Enum.map(&Task.async(fn -> func.(&1) end))
-    |> Task.await_many()
   end
 
   defp check_points(code) do
